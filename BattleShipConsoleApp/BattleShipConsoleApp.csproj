@@ -43,11 +43,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="PlayerComponents\Attack.cs" />
+    <Compile Include="PlayerComponents\BattleshipInBoard.cs" />
+    <Compile Include="PlayerComponents\BattleshipStateTracker.cs" />
+    <Compile Include="PlayerComponents\Board.cs" />
+    <Compile Include="PlayerComponents\IBattleshipLogic.cs" />
+    <Compile Include="PlayerComponents\Square.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
