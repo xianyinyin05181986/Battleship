@@ -1,4 +1,6 @@
-﻿using System;
+﻿using BattleShipConsoleApp.PlayerComponents.Common;
+using BattleShipConsoleApp.PlayerComponents.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,25 +10,31 @@ namespace BattleShipConsoleApp.PlayerComponents
 {
     public class BattleshipStateTracker : IBattleshipLogic
     {
-
-        public void AddBatthleshipToBoard(Board board, params BattleshipInBoard[] Battleships)
+        public Board ActiveBoard { get; private set; }
+        public void CreateABoard()
         {
-            
+            ActiveBoard = Board.CreateNewBoard();
+        }
+        public void AddABatthleshipToBoard(int size, BattleshipDirection direction, int startPosition_x, int startPosition_y)
+        {
+            if (ActiveBoard == null) throw new ArgumentNullException(nameof(ActiveBoard));
+            ActiveBoard.AddABattleship(size, direction, startPosition_x, startPosition_y);
+        }
+        public AttackResult ResponseToAttack(int x, int y)
+        {
+            if (ActiveBoard == null) throw new ArgumentNullException(nameof(ActiveBoard));
+
+            return ActiveBoard.TakenAttack(new Attack()
+            {
+                X = x,
+                Y = y
+            });
+        }
+        public GameResult Conduct()
+        {
+            if (ActiveBoard == null) throw new ArgumentNullException(nameof(ActiveBoard));
+            return ActiveBoard.AreAllBattleshipsSunk() ? GameResult.Lost : GameResult.NoLostYet;
         }
 
-        GameResult IBattleshipLogic.Conduct()
-        {
-            throw new NotImplementedException();
-        }
-
-        void IBattleshipLogic.CreateABoard()
-        {
-            throw new NotImplementedException();
-        }
-
-        AttackResult IBattleshipLogic.ResponseToAttack(Attack attack)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

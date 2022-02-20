@@ -1,4 +1,6 @@
-﻿using System;
+﻿using BattleShipConsoleApp.PlayerComponents.Common;
+using BattleShipConsoleApp.PlayerComponents.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -10,11 +12,11 @@ namespace BattleShipConsoleApp.PlayerComponents
         public const int DefaultLength = 10;
         public int Width { get; private set; } = DefaultWidth;
         public int Length { get; private set; } = DefaultLength;
-        public List<BattleshipInBoard> Battleships { get; set; } = new List<BattleshipInBoard>();
-        public bool AddABattleship(BattleshipInBoard battleship)
+        private List<BattleshipInBoard> Battleships { get; set; } = new List<BattleshipInBoard>();
+        public bool AddABattleship(int size, BattleshipDirection direction, int x, int y)
         {
-            if (battleship == null)
-                throw new ArgumentNullException(nameof(battleship));
+
+            BattleshipInBoard battleship = new BattleshipInBoard(size, direction, new BattleshipSquare { X = x, Y = y });
             if (!IsBattleshipFit(battleship))
             {
                 return false;
@@ -27,7 +29,7 @@ namespace BattleShipConsoleApp.PlayerComponents
         }
         private bool IsBattleshipFit(BattleshipInBoard battleship)
         {
-            foreach (Square square in battleship.BattleshipSquare)
+            foreach (var square in battleship.BattleshipSquare)
             {
                 foreach (BattleshipInBoard existingBattleship in Battleships)
                 {
@@ -37,12 +39,20 @@ namespace BattleShipConsoleApp.PlayerComponents
             }
             return true;
         }
-        public bool AreAllBattleshipsSunk()
+        public bool AreAllBattleshipsSunk() => !Battleships.Any(bs => !bs.IsSunk());
+        public AttackResult TakenAttack(Attack attack)
         {
-            if (!Battleships.Any(bs => bs.IsSunk()))
-                return true;
-            else
-                return false;
+            foreach (var battleship in Battleships)
+            {
+                var hitSquare = battleship.BattleshipSquare.FirstOrDefault(s => s.X == attack.X && s.Y == attack.Y);
+                if (hitSquare != null)
+                {
+                    hitSquare.IsHit = true;
+                    return AttackResult.Hit;
+                }
+
+            }
+            return AttackResult.Miss;
         }
         public static Board CreateNewBoard()
         {

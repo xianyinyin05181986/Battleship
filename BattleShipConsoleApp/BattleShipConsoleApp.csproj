@@ -43,12 +43,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="PlayerComponents\Attack.cs" />
+    <Compile Include="PlayerComponents\Common\Battleship.cs" />
+    <Compile Include="PlayerComponents\Enums\BattleshipDirection.cs" />
+    <Compile Include="PlayerComponents\Enums\AttackResult.cs" />
     <Compile Include="PlayerComponents\BattleshipInBoard.cs" />
     <Compile Include="PlayerComponents\BattleshipStateTracker.cs" />
     <Compile Include="PlayerComponents\Board.cs" />
-    <Compile Include="PlayerComponents\IBattleshipLogic.cs" />
-    <Compile Include="PlayerComponents\Square.cs" />
+    <Compile Include="PlayerComponents\Enums\GameResult.cs" />
+    <Compile Include="PlayerComponents\Common\IBattleshipLogic.cs" />
+    <Compile Include="PlayerComponents\Common\Square.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

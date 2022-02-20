@@ -1,18 +1,11 @@
-﻿using System;
+﻿using BattleShipConsoleApp.PlayerComponents.Common;
+using BattleShipConsoleApp.PlayerComponents.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace BattleShipConsoleApp.PlayerComponents
 {
-    public class Battleship
-    {
-        public Battleship(int size)
-        {
-            Size = size;
-        }
-        // The ships are 1-by-n sized
-        public int Size { get; private set; }
-    }
     public class BattleshipInBoard : Battleship
     {
         public BattleshipInBoard(int size, BattleshipDirection alignmentDirection, BattleshipSquare startPosition) : base(size)
@@ -34,13 +27,19 @@ namespace BattleShipConsoleApp.PlayerComponents
                 {
                     BattleshipSquare.Add(new BattleshipSquare()
                     {
-                        X = startPosition.X + i,
-                        Y = startPosition.Y,
+                        X = startPosition.X,
+                        Y = startPosition.Y + i - 1,
                         IsHit = false,
                     });
                 }
                 else
                 {
+                    BattleshipSquare.Add(new BattleshipSquare()
+                    {
+                        X = startPosition.X + i - 1,
+                        Y = startPosition.Y,
+                        IsHit = false,
+                    });
                 }
             }
         }
@@ -50,18 +49,8 @@ namespace BattleShipConsoleApp.PlayerComponents
         public BattleshipDirection Direction { get; private set; }
         // Occupied a list of squares in the board
         public List<BattleshipSquare> BattleshipSquare { get; private set; }
-        public bool IsSunk()
-        {
-            if (BattleshipSquare.Any(square => !square.IsHit))
-                return false;
-            else
-                return true;
-        }
-    }
+        public bool IsSunk() => !BattleshipSquare.Any(square => !square.IsHit);
 
-    public enum BattleshipDirection
-    {
-        Vertically,
-        Horizontally
+
     }
 }
