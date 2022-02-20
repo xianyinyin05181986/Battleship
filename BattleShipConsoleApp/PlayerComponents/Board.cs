@@ -12,7 +12,7 @@ namespace BattleShipConsoleApp.PlayerComponents
         public const int DefaultLength = 10;
         public int Width { get; private set; } = DefaultWidth;
         public int Length { get; private set; } = DefaultLength;
-        private List<BattleshipInBoard> Battleships { get; set; } = new List<BattleshipInBoard>();
+        public List<BattleshipInBoard> Battleships { get; protected set; } = new List<BattleshipInBoard>();
         public void AddABattleship(int size, BattleshipDirection direction, int x, int y)
         {
 
@@ -28,11 +28,15 @@ namespace BattleShipConsoleApp.PlayerComponents
         }
         private bool IsBattleshipFit(BattleshipInBoard battleship)
         {
-            foreach (var square in battleship.BattleshipSquare)
+            if (battleship == null)
+                throw new ArgumentNullException(nameof(battleship));
+            if (battleship.BattleshipSquares.Any(s => s.X > Width || s.Y > Length))
+                throw new ArgumentOutOfRangeException(nameof(battleship));
+            foreach (var square in battleship.BattleshipSquares)
             {
                 foreach (BattleshipInBoard existingBattleship in Battleships)
                 {
-                    if (existingBattleship.BattleshipSquare.Any(s => s.X == square.X && s.Y == square.Y))
+                    if (existingBattleship.BattleshipSquares.Any(s => s.X == square.X && s.Y == square.Y))
                         return false;
                 }
             }
@@ -43,7 +47,7 @@ namespace BattleShipConsoleApp.PlayerComponents
         {
             foreach (var battleship in Battleships)
             {
-                var hitSquare = battleship.BattleshipSquare.FirstOrDefault(s => s.X == attack.X && s.Y == attack.Y);
+                var hitSquare = battleship.BattleshipSquares.FirstOrDefault(s => s.X == attack.X && s.Y == attack.Y);
                 if (hitSquare != null)
                 {
                     hitSquare.IsHit = true;

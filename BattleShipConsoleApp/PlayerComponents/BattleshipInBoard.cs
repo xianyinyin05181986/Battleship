@@ -20,12 +20,12 @@ namespace BattleShipConsoleApp.PlayerComponents
         /// <param name="startPosition"></param>
         private void SetupBattleshipSquare(BattleshipSquare startPosition)
         {
-            BattleshipSquare = new List<BattleshipSquare>();
+            BattleshipSquares = new List<BattleshipSquare>();
             for (int i = 1; i <= Size; i++)
             {
                 if (Direction == BattleshipDirection.Vertically)
                 {
-                    BattleshipSquare.Add(new BattleshipSquare()
+                    BattleshipSquares.Add(new BattleshipSquare()
                     {
                         X = startPosition.X,
                         Y = startPosition.Y + i - 1,
@@ -34,7 +34,7 @@ namespace BattleShipConsoleApp.PlayerComponents
                 }
                 else
                 {
-                    BattleshipSquare.Add(new BattleshipSquare()
+                    BattleshipSquares.Add(new BattleshipSquare()
                     {
                         X = startPosition.X + i - 1,
                         Y = startPosition.Y,
@@ -48,8 +48,8 @@ namespace BattleShipConsoleApp.PlayerComponents
         // Must be aligned either vertically or horizontally
         public BattleshipDirection Direction { get; private set; }
         // Occupied a list of squares in the board
-        public List<BattleshipSquare> BattleshipSquare { get; private set; }
-        public bool IsSunk() => !BattleshipSquare.Any(square => !square.IsHit);
+        public List<BattleshipSquare> BattleshipSquares { get; private set; }
+        public bool IsSunk() => !BattleshipSquares.Any(square => !square.IsHit);
 
 
     }
