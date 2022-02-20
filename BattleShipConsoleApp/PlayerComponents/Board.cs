@@ -13,18 +13,17 @@ namespace BattleShipConsoleApp.PlayerComponents
         public int Width { get; private set; } = DefaultWidth;
         public int Length { get; private set; } = DefaultLength;
         private List<BattleshipInBoard> Battleships { get; set; } = new List<BattleshipInBoard>();
-        public bool AddABattleship(int size, BattleshipDirection direction, int x, int y)
+        public void AddABattleship(int size, BattleshipDirection direction, int x, int y)
         {
 
             BattleshipInBoard battleship = new BattleshipInBoard(size, direction, new BattleshipSquare { X = x, Y = y });
             if (!IsBattleshipFit(battleship))
             {
-                return false;
+                throw new InvalidOperationException("Ship must fit entirely on the board.");
             }
             else
             {
                 Battleships.Add(battleship);
-                return true;
             }
         }
         private bool IsBattleshipFit(BattleshipInBoard battleship)
